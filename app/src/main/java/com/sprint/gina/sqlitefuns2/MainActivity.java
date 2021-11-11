@@ -11,6 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+// a database is like an excel workbook
+// a database table is like an excel sheet
+// a table has rows and columns
+// the rows are uniquely identified by an id
+// the columns are uniquely identified by fields (name + type)
+
+// 2 classes to know
+// 1. SQLiteOpenHelper: we will subclass this class and implement
+// some SQL methods
+// TODO: CRUD
+// 2. TODO: SQLiteOpenHelper
+
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivityTag";
 
