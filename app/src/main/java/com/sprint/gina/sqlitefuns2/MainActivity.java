@@ -6,10 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.List;
 
 // a database is like an excel workbook
 // a database table is like an excel sheet
@@ -20,11 +23,13 @@ import android.widget.TextView;
 // 2 classes to know
 // 1. SQLiteOpenHelper: we will subclass this class and implement
 // some SQL methods
-// TODO: CRUD
-// 2. TODO: SQLiteOpenHelper
+// CRUD: create, read, update, and delete operations
+// 2. SQLiteOpenHelper: a reference type to the database
 
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivityTag";
+
+    ContactOpenHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         CustomAdapter adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
         setContentView(recyclerView);
+
+        helper = new ContactOpenHelper(this);
+        Contact contact = new Contact("Spike the Bulldog",
+                "509-509-5095");
+        helper.insertContact(contact);
+        List<Contact> contacts = helper.getSelectAllContacts();
+        Log.d(TAG, "onCreate: " + contacts);
     }
 
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
@@ -65,14 +77,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-            // TODO: get the Contact at position
-            // holder.updateView(contact);
+            // get the Contact at position
+            Contact contact = helper.getSelectContactById(position + 1); // BIG BUG!!!!
+            // TODO: fix the bug... there isn't going to be a perfect plus 1 mapping
+            // between position and ids when you start deleting
+             holder.updateView(contact);
         }
 
         @Override
         public int getItemCount() {
-            // TODO: get number of Contacts
-            return 0;
+            // get number of Contacts
+            return helper.getSelectAllContacts().size(); // not very efficient!!
         }
     }
 }
