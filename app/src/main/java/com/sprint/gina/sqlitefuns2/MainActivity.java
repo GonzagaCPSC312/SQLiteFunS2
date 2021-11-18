@@ -51,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
         helper.insertContact(contact);
         List<Contact> contacts = helper.getSelectAllContacts();
         Log.d(TAG, "onCreate: " + contacts);
+        Contact updatedContact = new Contact(1, "SPIKE",
+                "208-208-2082", -1);
+        helper.updateContactById(updatedContact);
+        // TODO: deleting all the contacts means that when we insert again
+        // our ids and our positions are not off by 1 anymore (BIG BUG!!!)
+        helper.deleteAllContacts();
     }
 
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
